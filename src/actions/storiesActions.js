@@ -5,13 +5,13 @@ export function loadStoriesSuccess(stories) {
 }
 
 export function loadStories() {
-  return function(dispatch) {
-    return fetch('/api/stories')
-      .then(stories => stories.json())
-      .then(stories => {
-        dispatch(loadStoriesSuccess(stories));
-      }).catch(error => {
-        throw(error);
-      });
+  return async (dispatch) => {
+    try {
+      let stories = await fetch('/api/stories');
+      stories = await stories.json();
+      dispatch(loadStoriesSuccess(stories));
+    } catch (error) {
+      throw(error);
+    }
   };
 }
