@@ -5,8 +5,7 @@ class TopPage extends React.Component {
   render() {
     return (
       <div>
-        This is the top page.
-        <Link to="/">Goto hot page</Link>
+        <h3>Top Page</h3>
       </div>
     );
   }

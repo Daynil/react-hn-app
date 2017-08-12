@@ -1,0 +1,26 @@
+div.nav-bar {
+  padding-left: 200px;
+  padding-right: 200px;
+}
+
+.logo {
+  height: 36px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+button.nav-button {
+  font-size: 16px;
+  font-weight: 300;
+  text-transform: none;
+}
+
+a.nav-button {
+  text-decoration: none;
+}
+
+a.active {
+  background-color: hsla(0,0%,100%, 0.1);
+}

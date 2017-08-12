@@ -5,27 +5,17 @@ import * as storiesActions from '../../actions/storiesActions';
 import {Link, withRouter} from 'react-router-dom';
 
 import './HotePage.css';
-import Card, {CardContent} from 'material-ui/Card';
-import IconButton from 'material-ui/IconButton';
-import Typography from 'material-ui/Typography';
-
+import StoryCard from '../common/StoryCard';
 
 class HotPage extends React.Component {
 
   render() {
     const storyCards = this.props.stories.map((story, i) => {
-      return (
-        <Card key={i}>
-          <CardContent>
-            <Typography type="headline">{story.title}</Typography>
-          </CardContent>
-        </Card>
-      );
+      return <StoryCard key={i} story={story}/>
     });
 
     return (
-      <div id="page-wrapper">
-        <Link to="top">Goto top page</Link>
+      <div>
         {storyCards}
       </div>
     );
