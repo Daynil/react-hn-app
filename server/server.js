@@ -6,8 +6,13 @@ const compress = require('compression');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const colors = require('colors');
+const fetch = require('node-fetch');
 
 require('dotenv').load();
+
+// DEBUG
+const fs = require('fs');
+const bestStoriesCache = require('./debug/bestStoriesCache.json');
 
 const app = express();
 
@@ -25,44 +30,29 @@ app.use(morgan('dev', {
   }
 }));
 
-app.get('/api/stories', (req, res) => {
-  let stories = [
-    {
-      "by" : "dhouston",
-      "descendants" : 71,
-      "id" : 8863,
-      "kids" : [ 8952, 9224, 8917, 8884, 8887, 8943, 8869, 8958, 9005, 9671, 8940, 9067, 8908, 9055, 8865, 8881, 8872, 8873, 8955, 10403, 8903, 8928, 9125, 8998, 8901, 8902, 8907, 8894, 8878, 8870, 8980, 8934, 8876 ],
-      "score" : 111,
-      "time" : 1175714200,
-      "title" : "My YC app: Dropbox - Throw away your USB drive",
-      "type" : "story",
-      "url" : "http://www.getdropbox.com/u/2/screencast.html"
-    },
-    {
-      "by" : "person1",
-      "descendants" : 71,
-      "id" : 8863,
-      "kids" : [ 8952, 9224, 8917, 8884, 8887, 8943, 8869, 8958, 9005, 9671, 8940, 9067, 8908, 9055, 8865, 8881, 8872, 8873, 8955, 10403, 8903, 8928, 9125, 8998, 8901, 8902, 8907, 8894, 8878, 8870, 8980, 8934, 8876 ],
-      "score" : 345,
-      "time" : 1175714200,
-      "title" : "This story be the bloody coolest donchakno",
-      "type" : "story",
-      "url" : "http://www.google.com/"
-    },
-    {
-      "by" : "dadams",
-      "descendants" : 71,
-      "id" : 8863,
-      "kids" : [ 8952, 9224, 8917, 8884, 8887, 8943, 8869, 8958, 9005, 9671, 8940, 9067, 8908, 9055, 8865, 8881, 8872, 8873, 8955, 10403, 8903, 8928, 9125, 8998, 8901, 8902, 8907, 8894, 8878, 8870, 8980, 8934, 8876 ],
-      "score" : 42,
-      "time" : 1175714200,
-      "title" : "This is the one fo sho.",
-      "type" : "story",
-      "url" : "http://www.google.com/"
-    },
-  ];
+app.get('/api/stories', async (req, res) => {
+  return res.status(200).json(bestStoriesCache);
 
-  res.status(200).json(stories);
+  try {
+    let bestStoryIds = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json');
+    bestStoryIds = await bestStoryIds.json();
+    let best30Ids = bestStoryIds.slice(0, 30);
+    let bestStoryArray = await Promise.all(best30Ids.map(async bestStoryId => {
+      try {
+        let bestStory = await fetch(`https://hacker-news.firebaseio.com/v0/item/${bestStoryId}.json`);
+        bestStory = await bestStory.json();
+        return bestStory;
+      } catch (error) {
+        console.log(error);
+      }
+    }));
+    //fs.writeFile('./debugCache.json', JSON.stringify(bestStoryArray), 'utf-8')
+    res.status(200).json(bestStoryArray);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({error: error});
+  }
+
 });
 
 /** CRA serves front end in development */
