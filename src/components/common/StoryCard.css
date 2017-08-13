@@ -10,8 +10,18 @@
 }
 
 .score {
-  margin-top: 10px;
+  margin-top: 15px;
   width: 40px;
+}
+
+.middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.extra-info {
+  align-self: left;
 }
 
 .story-link {
@@ -22,4 +32,15 @@
 
 .story-link:hover {
   color: hsl(189, 100%, 50%);
+}
+
+spacer {
+  flex: '1 1 auto';
+}
+
+.comment-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  height: inherit;
 }
