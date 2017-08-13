@@ -10,7 +10,8 @@
 }
 
 .score {
-  margin-top: 15px;
+  display: flex;
+  align-items: center;
   width: 40px;
 }
 
