@@ -1,3 +1,7 @@
 export default {
-  stories: []
+  stories: [],
+  ajaxInfo: {
+    ajaxInProgress: false,
+    error: ''
+  }
 };

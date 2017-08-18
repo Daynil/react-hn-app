@@ -9,12 +9,14 @@ import IconButton from 'material-ui/IconButton';
 import logo from  '../../react-logo.png';
 import './Navigation.css';
 
-const Navigation = () => {
+const Navigation = ({loading}) => {
+
   return (
     <AppBar position="static">
       <Toolbar className="nav-bar">
         <IconButton color="contrast">
-          <img src={logo} alt="Logo" className="logo"/>
+          <img src={logo} alt="Logo"
+               className={loading ? "logo spin-load" : "logo"}/>
         </IconButton>
         <Typography type="title" color="inherit">
           React HN

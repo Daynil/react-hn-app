@@ -22,5 +22,14 @@ a.nav-button {
 }
 
 a.active {
-  background-color: hsla(0,0%,100%, 0.1);
+  background-color: hsla(0, 0%, 100%, 0.1);
+}
+
+.spin-load {
+  animation: logo-spin-load infinite 2s linear;
+}
+
+@keyframes logo-spin-load {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }

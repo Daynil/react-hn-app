@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as storiesActions from '../../actions/storiesActions';
-import {Link, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 
 import './HotePage.css';
 import StoryCard from '../common/StoryCard';
@@ -33,6 +33,5 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators(storiesActions, dispatch)
   };
 }
-
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HotPage));

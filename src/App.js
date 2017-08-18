@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
+import AppContainer from './AppContainer';
 import './App.css';
 
-import {BrowserRouter as Router, Route} from 'react-router-dom';
-import Navigation from './components/common/Navigation';
-import HotPage from './components/hot/HotPage';
-import TopPage from './components/top/TopPage';
+import {BrowserRouter as Router} from 'react-router-dom';
 
 import {Provider} from 'react-redux';
 import configureStore from './store/configureStore'
 import {loadStories} from './actions/storiesActions';
 
 const store = configureStore();
+let statey = store.getState();
 store.dispatch(loadStories());
 
 class App extends Component {
@@ -18,13 +17,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <div>
-            <Navigation/>
-            <div className="page-wrapper">
-              <Route exact path="/" component={HotPage} />
-              <Route exact path="/top" component={TopPage} />
-            </div>
-          </div>
+          <AppContainer/>
         </Router>
       </Provider>
     );
