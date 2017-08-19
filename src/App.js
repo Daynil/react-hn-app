@@ -9,7 +9,6 @@ import configureStore from './store/configureStore'
 import {loadStories} from './actions/storiesActions';
 
 const store = configureStore();
-let statey = store.getState();
 store.dispatch(loadStories());
 
 class App extends Component {

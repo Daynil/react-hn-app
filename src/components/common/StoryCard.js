@@ -19,13 +19,26 @@ const parseDomain = (url) => {
   return resArray ? resArray[1] : "";
 };
 
+const getCommentCount = (comments) => {
+  let commentCount = 0;
+
+  if (comments.length === 0) return 0;
+  else {
+    commentCount += comments.length;
+    comments.forEach(comment => {
+      commentCount += getCommentCount(comment.children);
+    });
+  }
+  return commentCount;
+}
+
 const StoryCard = ({story}) => {
   return (
     <Card className="card">
       <div className="heat-index"></div>
       <CardContent className="score">
         <Typography type="headline" color="primary">
-          {story.score}
+          {story.points}
         </Typography>
       </CardContent>
       <CardContent className="middle">
@@ -43,7 +56,7 @@ const StoryCard = ({story}) => {
           </Typography>
         </div>
         <Typography type="subheading" color="secondary" className="extra-info">
-          by {story.by} {getAge(story.time)}
+          by {story.by} {getAge(story.created_at_i)}
         </Typography>
       </CardContent>
       <div className="spacer"></div>
@@ -53,7 +66,7 @@ const StoryCard = ({story}) => {
             <Icon color="primary">comment</Icon>
           </IconButton>
           <Typography type="subheading">
-            {story.kids ? story.kids.length : "0"}
+            {story.children.length > 0 ? getCommentCount(story.children) : 0}
           </Typography>
         </div>
       </CardContent>

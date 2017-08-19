@@ -31,19 +31,23 @@ app.use(morgan('dev', {
 }));
 
 app.get('/api/stories', async (req, res) => {
-  //return res.status(200).json(bestStoriesCache);
+  return res.status(200).json(bestStoriesCache);
 
   try {
     let bestStoryIds = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json');
     bestStoryIds = await bestStoryIds.json();
     let best30Ids = bestStoryIds.slice(0, 30);
     let bestStoryPromises = best30Ids.map(async bestStoryId => {
-      let bestStory = await fetch(`https://hacker-news.firebaseio.com/v0/item/${bestStoryId}.json`);
+      //let bestStory = await fetch(`https://hacker-news.firebaseio.com/v0/item/${bestStoryId}.json`);
+      let bestStory = await fetch(`http://hn.algolia.com/api/v1/items/${bestStoryId}`);
       bestStory = await bestStory.json();
+      console.log(bestStory)
+      //let storyComments = await unpackComments(bestStory, 0);
+      //bestStory.comments = storyComments;
       return bestStory;
     });
     let bestStoryArray = await Promise.all(bestStoryPromises);
-    //fs.writeFile('./debugCache.json', JSON.stringify(bestStoryArray), 'utf-8')
+    fs.writeFile('./debugCache.json', JSON.stringify(bestStoryArray), 'utf-8')
     res.status(200).json(bestStoryArray);
   } catch (error) {
     console.log(error);
