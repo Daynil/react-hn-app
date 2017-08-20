@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 import Card, {CardContent} from 'material-ui/Card';
 import Icon from 'material-ui/Icon';
@@ -6,29 +7,36 @@ import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 import moment from 'moment';
 
-import './StoryCard.css'
+import './StoryCard.css';
 
 const getAge = (unixTime) => {
   let createdOn = moment.unix(unixTime);
   return createdOn.fromNow();
 };
 
+/**
+ * Extract base url from full address
+ */
 const parseDomain = (url) => {
   let re = new RegExp('^https?://?((www.)?[a-zA-Z0-9-_.]+)');
   let resArray = re.exec(url);
   return resArray ? resArray[1] : "";
 };
 
+/**
+ * Recursively walk comment tree to get comment count ignoring empty text comments
+ */
 const getCommentCount = (comments) => {
   let commentCount = 0;
+  comments = comments.filter(comment => comment.text);
 
-  if (comments.length === 0) return 0;
-  else {
+  if (comments.length > 0) {
     commentCount += comments.length;
     comments.forEach(comment => {
       commentCount += getCommentCount(comment.children);
     });
   }
+  
   return commentCount;
 }
 
@@ -56,17 +64,19 @@ const StoryCard = ({story}) => {
           </Typography>
         </div>
         <Typography type="subheading" color="secondary" className="extra-info">
-          by {story.by} {getAge(story.created_at_i)}
+          by {story.author} {getAge(story.created_at_i)}
         </Typography>
       </CardContent>
       <div className="spacer"></div>
       <CardContent>
         <div className="comment-container">
-          <IconButton>
-            <Icon color="primary">comment</Icon>
-          </IconButton>
+          <Link to={`/comment/${story.id}`} className="comment-button">
+            <IconButton>
+              <Icon color="primary">comment</Icon>
+            </IconButton>
+          </Link>
           <Typography type="subheading">
-            {story.children.length > 0 ? getCommentCount(story.children) : 0}
+            {getCommentCount(story.children)}
           </Typography>
         </div>
       </CardContent>

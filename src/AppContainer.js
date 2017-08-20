@@ -6,6 +6,7 @@ import * as storiesActions from './actions/storiesActions';
 import Navigation from './components/common/Navigation';
 import HotPage from './components/hot/HotPage';
 import TopPage from './components/top/TopPage';
+import CommentsPage from './components/comments/CommentsPage';
 
 class AppContainer extends Component {
   
@@ -14,8 +15,9 @@ class AppContainer extends Component {
       <div>
         <Navigation loading={this.props.loading}/>
         <div className="page-wrapper">
-          <Route exact path="/" component={HotPage} />
-          <Route exact path="/top" component={TopPage} />
+          <Route exact path="/" component={HotPage}/>
+          <Route path="/top" component={TopPage}/>
+          <Route path="/comment/:id" component={CommentsPage} />
         </div>
       </div>
     );

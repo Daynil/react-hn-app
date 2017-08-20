@@ -45,3 +45,7 @@ spacer {
   text-align: center;
   height: inherit;
 }
+
+a.comment-button {
+  text-decoration: none;
+}
