@@ -1,44 +1,42 @@
 import React from 'react';
 
-import Card, {CardContent} from 'material-ui/Card';
+import Card, {CardContent, CardHeader} from 'material-ui/Card';
 import Icon from 'material-ui/Icon';
 import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
-import moment from 'moment';
+
+import {getAge, getCommentCount} from '../../utilities/utilities';
+import DOMPurify from 'dompurify';
 
 import './CommentCard.css';
 
-const getAge = (unixTime) => {
-  let createdOn = moment.unix(unixTime);
-  return createdOn.fromNow();
-};
+const offsetFactor = 20;
 
-/**
- * Recursively walk comment tree to get comment count
- */
-const getCommentCount = (comments) => {
-  let commentCount = 0;
-  comments = comments.filter(comment => comment.text);
-
-  if (comments.length > 0) {
-    commentCount += comments.length;
-    comments.forEach(comment => {
-      commentCount += getCommentCount(comment.children);
-    });
-  }
-  
-  return commentCount;
+const getSanitizedMarkup = (dirtyString) => {
+  return {
+    __html: DOMPurify.sanitize(dirtyString)
+  };
 }
 
-const CommentCard = ({comment}) => {
+// const getMarginPosition = (level) => {
+//   const leftOffset = level * offsetFactor;
+//   return {
+//     marginLeft: `${leftOffset}px`,
+//     width: `calc(100% - ${leftOffset}px`
+//   }
+// }
+
+const CommentCard = ({comment, level}) => {
   return comment.text ? (
-    <Card className="card">
-      <Typography type="subheading">
-        {comment.author} {getAge(comment.created_at_i)}
-      </Typography>
-      <Typography type="headline">
-        {comment.text}
-      </Typography>
+    <Card className="card" style={{marginLeft: `${level * offsetFactor}px`}}>
+      <CardContent>
+        <Typography type="body1" color="secondary">
+          {comment.author} {getAge(comment.created_at_i)}
+        </Typography>
+        <Typography type="p">
+          <div dangerouslySetInnerHTML={getSanitizedMarkup(comment.text)}></div>
+        </Typography>
+      </CardContent>
     </Card>
   ): null;
 };

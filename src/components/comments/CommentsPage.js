@@ -6,22 +6,28 @@ import {withRouter} from 'react-router-dom';
 
 import './CommentsPage.css';
 import CommentCard from '../common/CommentCard';
+import StoryCard from '../common/StoryCard';
 
-const generateCommentChain = (comment, index) => {
-  return <Comment key={index} comment={comment}/>;
+const generateCommentChain = (levelOfRecursion) => {
+  return (comment, index) => <CommentWrap key={index} comment={comment} level={levelOfRecursion}/>;
 }
+
+// const generateCommentChain = (comment, index) => {
+//   return <CommentWrap key={index} comment={comment}/>;
+// }
 
 /**
  * Recursive wrapper component over CommentCard
  */
-const Comment = ({comment}) => {
+const CommentWrap = ({comment, level}) => {
   let nestedComments;
   if (comment.children.length > 0) {
-    nestedComments = comment.children.map(generateCommentChain);
+    const childLevel = level + 1;
+    nestedComments = comment.children.map(generateCommentChain(childLevel));
   }
   return (
     <div>
-      <CommentCard comment={comment}/>
+      <CommentCard comment={comment} level={level}/>
       {nestedComments}
     </div>
   );
@@ -32,11 +38,11 @@ class CommentsPage extends React.Component {
   render() {
     if (!this.props.story) return <div></div>;
 
-    const commentCardChain = this.props.story.children.map(generateCommentChain, this);
+    const commentCardChain = this.props.story.children.map(generateCommentChain(0));
 
     return (
       <div>
-        <div>{this.props.story.title}</div>
+        <StoryCard story={this.props.story}></StoryCard>
         {commentCardChain}
       </div>
     );
