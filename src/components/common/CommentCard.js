@@ -10,21 +10,13 @@ import DOMPurify from 'dompurify';
 
 import './CommentCard.css';
 
-const offsetFactor = 20;
+const offsetFactor = 40;
 
 const getSanitizedMarkup = (dirtyString) => {
   return {
     __html: DOMPurify.sanitize(dirtyString)
   };
 }
-
-// const getMarginPosition = (level) => {
-//   const leftOffset = level * offsetFactor;
-//   return {
-//     marginLeft: `${leftOffset}px`,
-//     width: `calc(100% - ${leftOffset}px`
-//   }
-// }
 
 const CommentCard = ({comment, level}) => {
   return comment.text ? (

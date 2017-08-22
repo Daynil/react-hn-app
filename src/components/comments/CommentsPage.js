@@ -12,10 +12,6 @@ const generateCommentChain = (levelOfRecursion) => {
   return (comment, index) => <CommentWrap key={index} comment={comment} level={levelOfRecursion}/>;
 }
 
-// const generateCommentChain = (comment, index) => {
-//   return <CommentWrap key={index} comment={comment}/>;
-// }
-
 /**
  * Recursive wrapper component over CommentCard
  */
