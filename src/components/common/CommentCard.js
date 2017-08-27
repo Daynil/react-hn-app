@@ -24,27 +24,33 @@ const CommentCard = ({comment, onClick, isHidden, level}) => {
     onClick(comment.id);
   }
 
-  const cardType = (comment) => {
+  const getBody = (comment) => {
     return !comment.minimized ? (
-        <Card className="card" style={{marginLeft: `${level * offsetFactor}px`}}>
-        <CardContent>
-          <IconButton onClick={onMinimizeClick}>
-            <Icon color="primary">remove</Icon>
-          </IconButton>
-          <Typography type="body1" color="secondary">
-            {comment.author} {getAge(comment.created_at_i)}
-          </Typography>
-          <Typography type="p">
-            <div dangerouslySetInnerHTML={getSanitizedMarkup(comment.text)}></div>
-          </Typography>
-        </CardContent>
-      </Card>
-    ) : (
-      <div>minimized</div>
-    );
+      <Typography type="p">
+        <div dangerouslySetInnerHTML={getSanitizedMarkup(comment.text)}></div>
+      </Typography>
+    ) : null;
   }
 
-  return comment.text && !isHidden ? (cardType(comment)): null;
+  return comment.text && !isHidden ? (
+    <Card className="card" style={{marginLeft: `${level * offsetFactor}px`}}>
+      <CardContent>
+        <Typography type="body1" color="secondary" className="poster">
+          {comment.author} {getAge(comment.created_at_i)}
+        </Typography>
+        <IconButton onClick={onMinimizeClick} className="min-button">
+          {!comment.minimized ?
+            <Icon color="primary" style={{ fontSize: 14 }}>remove</Icon> :
+            <Icon color="primary" style={{ fontSize: 14 }}>add</Icon>
+          }
+        </IconButton>
+        <Typography type="body1" color="secondary" className="poster">
+          {comment.minimized && ` (${getCommentCount(comment.children)} chidren)`}
+        </Typography>
+        {getBody(comment)}
+      </CardContent>
+    </Card>
+  ): null;
 };
 
 export default CommentCard;

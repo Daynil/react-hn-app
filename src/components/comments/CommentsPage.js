@@ -8,26 +8,28 @@ import './CommentsPage.css';
 import CommentCard from '../common/CommentCard';
 import StoryCard from '../common/StoryCard';
 
-const generateCommentChain = (onClick, levelOfRecursion) => {
+const generateCommentChain = (onClick, isHidden, levelOfRecursion) => {
   return (comment, index) => <CommentWrap key={index}
                                           comment={comment}
                                           onClick={onClick}
+                                          isHidden={isHidden}
                                           level={levelOfRecursion}/>;
 }
 
 /**
  * Recursive wrapper component over CommentCard
  */
-const CommentWrap = ({comment, onClick, level}) => {
+const CommentWrap = ({comment, onClick, isHidden, level}) => {
 
   let nestedComments;
   if (comment.children.length > 0) {
     const childLevel = level + 1;
-    nestedComments = comment.children.map(generateCommentChain(onClick, childLevel));
+    const childrenHidden = isHidden || comment.minimized;
+    nestedComments = comment.children.map(generateCommentChain(onClick, childrenHidden, childLevel));
   }
   return (
     <div>
-      <CommentCard comment={comment} onClick={onClick} level={level}/>
+      <CommentCard comment={comment} onClick={onClick} isHidden={isHidden} level={level}/>
       {nestedComments}
     </div>
   );
@@ -42,7 +44,7 @@ class CommentsPage extends React.Component {
   render() {
     if (!this.props.story) return <div></div>;
 
-    const commentCardChain = this.props.story.children.map(generateCommentChain(this.toggleComment, 0));
+    const commentCardChain = this.props.story.children.map(generateCommentChain(this.toggleComment, false, 0));
 
     return (
       <div>

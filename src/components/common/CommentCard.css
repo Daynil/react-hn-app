@@ -1,0 +1,12 @@
+p.poster {
+  display: inline-block;
+}
+
+button.min-button {
+  width: 24px;
+  height: 24px;
+  position: relative;
+  top: 2px;
+  left: 2px;
+  margin-right: 2px;
+}
