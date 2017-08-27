@@ -18,19 +18,33 @@ const getSanitizedMarkup = (dirtyString) => {
   };
 }
 
-const CommentCard = ({comment, level}) => {
-  return comment.text ? (
-    <Card className="card" style={{marginLeft: `${level * offsetFactor}px`}}>
-      <CardContent>
-        <Typography type="body1" color="secondary">
-          {comment.author} {getAge(comment.created_at_i)}
-        </Typography>
-        <Typography type="p">
-          <div dangerouslySetInnerHTML={getSanitizedMarkup(comment.text)}></div>
-        </Typography>
-      </CardContent>
-    </Card>
-  ): null;
+const CommentCard = ({comment, onClick, isHidden, level}) => {
+  
+  const onMinimizeClick = () => {
+    onClick(comment.id);
+  }
+
+  const cardType = (comment) => {
+    return !comment.minimized ? (
+        <Card className="card" style={{marginLeft: `${level * offsetFactor}px`}}>
+        <CardContent>
+          <IconButton onClick={onMinimizeClick}>
+            <Icon color="primary">remove</Icon>
+          </IconButton>
+          <Typography type="body1" color="secondary">
+            {comment.author} {getAge(comment.created_at_i)}
+          </Typography>
+          <Typography type="p">
+            <div dangerouslySetInnerHTML={getSanitizedMarkup(comment.text)}></div>
+          </Typography>
+        </CardContent>
+      </Card>
+    ) : (
+      <div>minimized</div>
+    );
+  }
+
+  return comment.text && !isHidden ? (cardType(comment)): null;
 };
 
 export default CommentCard;
