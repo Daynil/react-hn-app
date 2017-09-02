@@ -50,8 +50,10 @@ class CommentsPage extends React.Component {
     const commentCardChain = this.props.story.children.map(generateCommentChain(this.toggleComment, false, 0));
     return (
       <div>
-        <StoryCard story={this.props.story}></StoryCard>
-        {commentCardChain}
+        <StoryCard story={this.props.story} comments={true}></StoryCard>
+        <div className="comments-wrap">
+          {commentCardChain}
+        </div>
       </div>
     );
   }

@@ -15,6 +15,12 @@
   width: 40px;
 }
 
+.comments {
+  display: flex;
+  align-items: flex-start;
+  width: 40px;
+}
+
 .middle {
   display: flex;
   flex-direction: column;

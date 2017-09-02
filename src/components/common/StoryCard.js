@@ -1,6 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+import DOMPurify from 'dompurify';
+
 import Card, {CardContent} from 'material-ui/Card';
 import Icon from 'material-ui/Icon';
 import IconButton from 'material-ui/IconButton';
@@ -19,11 +21,26 @@ const parseDomain = (url) => {
   return resArray ? resArray[1] : "";
 };
 
-const StoryCard = ({story}) => {
+const getSanitizedMarkup = (dirtyString) => {
+  return {
+    __html: DOMPurify.sanitize(dirtyString)
+  };
+}
+
+const StoryCard = ({story, comments}) => {
+
+  const getStoryText = (text) => {
+    return text ? (
+      <span>
+        <span dangerouslySetInnerHTML={getSanitizedMarkup(text)}></span>
+      </span>
+    ) : null;
+  }
+
   return (
     <Card className="card">
       <div className="heat-index"></div>
-      <CardContent className="score">
+      <CardContent className={!comments ? "score" : "score comments"}>
         <Typography type="headline">
           {story.points}
         </Typography>
@@ -45,6 +62,11 @@ const StoryCard = ({story}) => {
         <Typography type="subheading" color="secondary" className="extra-info">
           by {story.author} {getAge(story.created_at_i)}
         </Typography>
+        {comments &&
+        <Typography>
+          {getStoryText(story.text)}
+        </Typography>
+        }
       </CardContent>
       <div className="spacer"></div>
       <CardContent>
