@@ -36,7 +36,12 @@ const CommentCard = ({comment, onClick, isHidden, level}) => {
       <div>
         <span className="title">
           <span>
-            {comment.author} {getAge(comment.created_at_i)}
+            <a href={`https://news.ycombinator.com/user?id=${comment.author}`}
+              target="_blank"
+              className="author">
+              {comment.author}
+            </a>{" "}
+            {getAge(comment.created_at_i)}
           </span>
           <span onClick={onMinimizeClick} className="min-button">
             {!comment.minimized ?

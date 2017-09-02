@@ -21,3 +21,11 @@ export const getCommentCount = (comments) => {
 
   return commentCount;
 }
+
+export const getHeatIndex = (story) => {
+  const storyAge = moment.unix(story.created_at_i);
+  let redAdjust = story.points / storyAge.minutes();
+  let redness = (redAdjust > 50) ? 50 : redAdjust;
+  let heatIndex = 100 - redness;
+  return {backgroundColor: `hsl(0, 50%, ${heatIndex}%`};
+}

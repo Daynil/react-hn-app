@@ -8,7 +8,7 @@ import Icon from 'material-ui/Icon';
 import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 
-import {getAge, getCommentCount} from '../../utilities/utilities';
+import {getAge, getCommentCount, getHeatIndex} from '../../utilities/utilities';
 
 import './StoryCard.css';
 
@@ -39,7 +39,7 @@ const StoryCard = ({story, comments}) => {
 
   return (
     <Card className="card">
-      <div className="heat-index"></div>
+      <div className="heat-index" style={getHeatIndex(story)}></div>
       <CardContent className={!comments ? "score" : "score comments"}>
         <Typography type="headline">
           {story.points}
@@ -60,7 +60,13 @@ const StoryCard = ({story, comments}) => {
           </Typography>
         </div>
         <Typography type="subheading" color="secondary" className="extra-info">
-          by {story.author} {getAge(story.created_at_i)}
+          by {" "}
+          <a href={`https://news.ycombinator.com/user?id=${story.author}`}
+             target="_blank"
+             className="author">
+            {story.author}
+          </a>{" "}
+          {getAge(story.created_at_i)}
         </Typography>
         {comments &&
         <Typography>
