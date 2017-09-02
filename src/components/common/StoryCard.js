@@ -24,7 +24,7 @@ const StoryCard = ({story}) => {
     <Card className="card">
       <div className="heat-index"></div>
       <CardContent className="score">
-        <Typography type="headline" color="primary">
+        <Typography type="headline">
           {story.points}
         </Typography>
       </CardContent>

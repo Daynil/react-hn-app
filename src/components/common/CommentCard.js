@@ -26,7 +26,7 @@ const CommentCard = ({comment, onClick, isHidden, level}) => {
 
   const getBody = (comment) => {
     return !comment.minimized ? (
-      <Typography type="p">
+      <Typography type="body1">
         <div dangerouslySetInnerHTML={getSanitizedMarkup(comment.text)}></div>
       </Typography>
     ) : null;
