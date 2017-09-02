@@ -12,7 +12,7 @@ class AppContainer extends Component {
   
   render() {
     return (
-      <div>
+      <div style={{backgroundColor: 'hsl(0, 0%, 98%)'}}>
         <Navigation loading={this.props.loading}/>
         <div className="page-wrapper">
           <Route exact path="/" component={HotPage}/>
