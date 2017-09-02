@@ -1,12 +1,26 @@
-p.poster {
-  display: inline-block;
+.comment {
+  padding-top: 20px;
+  font-family: 'Roboto';
+  border-bottom: 1px solid lightgray;
 }
 
-button.min-button {
+.title {
+  color: gray;
+}
+
+.minimized {
+  font-style: italic;
+  padding-bottom: 20px;
+}
+
+.min-button {
   width: 24px;
   height: 24px;
   position: relative;
-  top: 2px;
-  left: 2px;
+  top: 1px;
+  left: 3px;
   margin-right: 2px;
+  color: gray;
+  cursor: pointer;
+  font-size: 16px;
 }

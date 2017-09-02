@@ -1,10 +1,5 @@
 import React from 'react';
 
-import Card, {CardContent, CardHeader} from 'material-ui/Card';
-import Icon from 'material-ui/Icon';
-import IconButton from 'material-ui/IconButton';
-import Typography from 'material-ui/Typography';
-
 import {getAge, getCommentCount} from '../../utilities/utilities';
 import DOMPurify from 'dompurify';
 
@@ -26,30 +21,38 @@ const CommentCard = ({comment, onClick, isHidden, level}) => {
 
   const getBody = (comment) => {
     return !comment.minimized ? (
-      <Typography type="body1">
-        <div dangerouslySetInnerHTML={getSanitizedMarkup(comment.text)}></div>
-      </Typography>
+      <span>
+        <span dangerouslySetInnerHTML={getSanitizedMarkup(comment.text)}></span>
+      </span>
     ) : null;
   }
 
+  const getMinTitle = (minimized) => {
+    return !minimized ? 'comment' : 'comment minimized';
+  }
+
   return comment.text && !isHidden ? (
-    <Card className="card" style={{marginLeft: `${level * offsetFactor}px`}}>
-      <CardContent>
-        <Typography type="body1" color="secondary" className="poster">
-          {comment.author} {getAge(comment.created_at_i)}
-        </Typography>
-        <IconButton onClick={onMinimizeClick} className="min-button">
-          {!comment.minimized ?
-            <Icon color="primary" style={{ fontSize: 14 }}>remove</Icon> :
-            <Icon color="primary" style={{ fontSize: 14 }}>add</Icon>
-          }
-        </IconButton>
-        <Typography type="body1" color="secondary" className="poster">
-          {comment.minimized && ` (${getCommentCount(comment.children)} chidren)`}
-        </Typography>
-        {getBody(comment)}
-      </CardContent>
-    </Card>
+    <div className={getMinTitle(comment.minimized)} style={{marginLeft: `${level * offsetFactor}px`}}>
+      <div>
+        <span className="title">
+          <span>
+            {comment.author} {getAge(comment.created_at_i)}
+          </span>
+          <span onClick={onMinimizeClick} className="min-button">
+            {!comment.minimized ?
+              <span>[ - ]</span> :
+              <span>[ + ]</span>
+            }
+          </span>
+          <span>
+            {comment.minimized && ` (${getCommentCount(comment.children)} chidren)`}
+          </span>
+        </span>
+        <span className="body">
+          {getBody(comment)}
+        </span>
+      </div>
+    </div>
   ): null;
 };
 
