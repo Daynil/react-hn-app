@@ -8,8 +8,6 @@ import './CommentsPage.css';
 import CommentCard from '../common/CommentCard';
 import StoryCard from '../common/StoryCard';
 
-import Perf from 'react-addons-perf';
-
 const generateCommentChain = (onClick, isHidden, levelOfRecursion) => {
   return (comment, index) => <CommentWrap key={index}
                                           comment={comment}
@@ -39,23 +37,16 @@ const CommentWrap = ({comment, onClick, isHidden, level}) => {
 
 class CommentsPage extends React.Component {
 
-  componentDidUpdate() {
-    Perf.stop()
-    Perf.printInclusive()
-    Perf.printWasted()
-  }
-
-  componentWillMount() {
-    Perf.start()
-  }
-
   toggleComment = commentId => {
     this.props.actions.toggleComment(this.props.story.id, commentId);
   }
 
   render() {
     if (!this.props.story) return null;
-    const commentCardChain = this.props.story.children.map(generateCommentChain(this.toggleComment, false, 0));
+    //const commentCardChain = this.props.story.children.map(generateCommentChain(this.toggleComment, false, 0));
+    const commentCardChain = this.props.story.children.map((comment, index) => {
+      return <CommentCard key={index} comment={comment}/>;
+    });
     return (
       <div>
         <StoryCard story={this.props.story}></StoryCard>

@@ -33,20 +33,24 @@ const CommentCard = ({comment, onClick, isHidden, level}) => {
   }
 
   return comment.text && !isHidden ? (
+    // <div>
+    //   <div>{comment.author} {getAge(comment.created_at_i)}</div>
+    //   <div>{getBody(comment)}</div>
+    // </div>
     <Card className="card" style={{marginLeft: `${level * offsetFactor}px`}}>
       <CardContent>
         <Typography type="body1" color="secondary" className="poster">
           {comment.author} {getAge(comment.created_at_i)}
         </Typography>
         <IconButton onClick={onMinimizeClick} className="min-button">
-          {!comment.minimized ?
+          {/* {!comment.minimized ?
             <Icon color="primary" style={{ fontSize: 14 }}>remove</Icon> :
             <Icon color="primary" style={{ fontSize: 14 }}>add</Icon>
-          }
+          } */}
         </IconButton>
-        <Typography type="body1" color="secondary" className="poster">
+        {/* <Typography type="body1" color="secondary" className="poster">
           {comment.minimized && ` (${getCommentCount(comment.children)} chidren)`}
-        </Typography>
+        </Typography> */}
         {getBody(comment)}
       </CardContent>
     </Card>
