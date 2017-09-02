@@ -41,11 +41,8 @@ const CommentCard = ({comment, onClick, isHidden, level}) => {
           <span onClick={onMinimizeClick} className="min-button">
             {!comment.minimized ?
               <span>[ - ]</span> :
-              <span>[ + ]</span>
+              <span>[ + {comment.minimized && getCommentCount(comment.children)} ]</span>
             }
-          </span>
-          <span>
-            {comment.minimized && ` (${getCommentCount(comment.children)} chidren)`}
           </span>
         </span>
         <span className="body">

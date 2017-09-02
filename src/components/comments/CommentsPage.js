@@ -40,13 +40,6 @@ class CommentsPage extends React.Component {
   componentDidMount() {
     window.scrollTo(0, 0);
   }
-  
-
-  componentDidUpdate(prevProps) {
-    //if (this.props.location !== prevProps.location) {
-      window.scrollTo(0, 0);
-    //}
-  }
 
   toggleComment = commentId => {
     this.props.actions.toggleComment(this.props.story.id, commentId);
