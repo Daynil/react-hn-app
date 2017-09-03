@@ -30,30 +30,46 @@ app.use(morgan('dev', {
   }
 }));
 
-app.get('/api/stories', async (req, res) => {
-  return res.status(200).json(bestStoriesCache);
+/**
+ * Get a list of story IDs in a specified order
+ * @param type 'top', 'new' or 'best' ordering
+ * @return list of 200 IDs
+ */
+app.get('/api/listorder/:type', async (req, res) => {
+  const sortType = req.params.type;
 
   try {
-    let bestStoryIds = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json');
-    bestStoryIds = await bestStoryIds.json();
-    let best30Ids = bestStoryIds.slice(0, 30);
-    let bestStoryPromises = best30Ids.map(async bestStoryId => {
-      //let bestStory = await fetch(`https://hacker-news.firebaseio.com/v0/item/${bestStoryId}.json`);
-      let bestStory = await fetch(`http://hn.algolia.com/api/v1/items/${bestStoryId}`);
-      bestStory = await bestStory.json();
-      console.log(bestStory)
-      //let storyComments = await unpackComments(bestStory, 0);
-      //bestStory.comments = storyComments;
-      return bestStory;
-    });
-    let bestStoryArray = await Promise.all(bestStoryPromises);
-    fs.writeFile('./debugCache.json', JSON.stringify(bestStoryArray), 'utf-8')
-    res.status(200).json(bestStoryArray);
+    let storyIds = await fetch(`https://hacker-news.firebaseio.com/v0/${sortType}stories.json`);
+    storyIds = await storyIds.json();
+    //fs.writeFile('./debugCache.json', JSON.stringify(bestStoryArray), 'utf-8')
+    res.status(200).json(storyIds);
   } catch (error) {
     console.log(error);
     res.status(500).json({error: error});
   }
 
+});
+
+/**
+ * Get story details for a list of storyIds
+ * @param storyids a list of storyIDs we need full info for
+ * @return full list of info 
+ */
+app.post('/api/stories', async (req, res) => {
+  const storyIds = req.body;
+  try {
+    let storyPromises = storyIds.map(async storyId => {
+      let story = await fetch(`http://hn.algolia.com/api/v1/items/${storyId}`);
+      story = await story.json();
+      return story;
+    });
+    let storyArray = await Promise.all(storyPromises);
+    //fs.writeFile('./debugCache.json', JSON.stringify(storyArray), 'utf-8')
+    res.status(200).json(storyArray);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({error: error});
+  }
 });
 
 /** CRA serves front end in development */

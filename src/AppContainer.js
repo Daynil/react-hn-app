@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import {Route, withRouter} from 'react-router-dom';
+import {Route, withRouter, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as storiesActions from './actions/storiesActions';
 import Navigation from './components/common/Navigation';
-import HotPage from './components/hot/HotPage';
-import TopPage from './components/top/TopPage';
+import StoriesPage from './components/stories/StoriesPage';
 import CommentsPage from './components/comments/CommentsPage';
 
 class AppContainer extends Component {
@@ -15,8 +14,8 @@ class AppContainer extends Component {
       <div style={{backgroundColor: 'hsl(0, 0%, 98%)'}}>
         <Navigation loading={this.props.loading}/>
         <div className="page-wrapper">
-          <Route exact path="/" component={HotPage}/>
-          <Route path="/top" component={TopPage}/>
+          <Route exact path="/" render={() => <Redirect to="/stories/top"/>}/>
+          <Route path="/stories/:type" component={StoriesPage}/>
           <Route path="/comment/:id" component={CommentsPage} />
         </div>
       </div>

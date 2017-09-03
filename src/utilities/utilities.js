@@ -29,3 +29,9 @@ export const getHeatIndex = (story) => {
   let heatIndex = 100 - redness;
   return {backgroundColor: `hsl(0, 50%, ${heatIndex}%`};
 }
+
+export const selectStories = (state, type) => {
+  let selectedStories = JSON.parse(JSON.stringify(state.stories));
+  const storyList = [...state.storyLists[type]];
+  return selectedStories.filter(story => storyList.indexOf(story.id) !== -1)
+}

@@ -72,9 +72,7 @@ function mapStateToProps(state, ownProps) {
     story = getStoryById(state.stories, storyId);
   }
 
-  return {
-    story: story
-  };
+  return {story};
 }
 
 function mapDispatchToProps(dispatch) {
