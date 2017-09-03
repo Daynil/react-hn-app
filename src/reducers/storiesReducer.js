@@ -4,7 +4,7 @@ import initialState from './initialState';
 export default function storiesReducer(state = initialState.stories, action) {
   switch (action.type) {
     case types.LOAD_STORIES_SUCCESS:
-      return action.stories;
+      return [...state, ...action.stories];
     
     case types.TOGGLE_COMMENT:
       return state.map(story => {

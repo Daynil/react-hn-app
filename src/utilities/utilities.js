@@ -32,6 +32,8 @@ export const getHeatIndex = (story) => {
 
 export const selectStories = (state, type) => {
   let selectedStories = JSON.parse(JSON.stringify(state.stories));
-  const storyList = [...state.storyLists[type]];
+  const stateList = state.storyLists[type].list;
+  const stateAmount = state.storyLists[type].amount;
+  const storyList = [...stateList].slice(0, stateAmount);
   return selectedStories.filter(story => storyList.indexOf(story.id) !== -1)
 }

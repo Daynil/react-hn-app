@@ -1,5 +1,8 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom';
+import {NavLink, withRouter, } from 'react-router-dom';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as storiesActions from '../../actions/storiesActions';
 
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
@@ -9,7 +12,13 @@ import IconButton from 'material-ui/IconButton';
 import logo from  '../../react-logo.png';
 import './Navigation.css';
 
-const Navigation = ({loading}) => {
+const Navigation = ({loading, lists, actions}) => {
+
+  const triggerReload = list => {
+    if (lists[list].length === 0) {
+      actions.refreshList(list);
+    }
+  }
 
   return (
     <AppBar position="static">
@@ -24,34 +33,24 @@ const Navigation = ({loading}) => {
 
         <div className="spacer"></div>
 
-        <NavLink exact to="/" className="nav-button" activeClassName="active">
-          <Button className="nav-button" color="contrast">
-            Hot
-          </Button>
-        </NavLink>
-        <NavLink to="/Top" className="nav-button" activeClassName="active">
-          <Button className="nav-button" color="contrast">
+        <NavLink to="/stories/top" className="nav-button" activeClassName="active">
+          <Button onClick={() => triggerReload('top')} className="nav-button" color="contrast">
             Top
           </Button>
         </NavLink>
-        <NavLink to="/New" className="nav-button" activeClassName="active">
-          <Button className="nav-button" color="contrast">
+        <NavLink to="/stories/best" className="nav-button" activeClassName="active">
+          <Button onClick={() => triggerReload('best')} className="nav-button" color="contrast">
+            Best
+          </Button>
+        </NavLink>
+        <NavLink to="/stories/new" className="nav-button" activeClassName="active">
+          <Button onClick={() => triggerReload('new')} className="nav-button" color="contrast">
             New
           </Button>
         </NavLink>
-        <NavLink to="/Show" className="nav-button" activeClassName="active">
+        <NavLink to="/stories/catchup" className="nav-button" activeClassName="active">
           <Button className="nav-button" color="contrast">
-            Show
-          </Button>
-        </NavLink>
-        <NavLink to="/Ask" className="nav-button" activeClassName="active">
-          <Button className="nav-button" color="contrast">
-            Ask
-          </Button>
-        </NavLink>
-        <NavLink to="/Jobs" className="nav-button" activeClassName="active">
-          <Button className="nav-button" color="contrast">
-            Jobs
+            Catchup
           </Button>
         </NavLink>
         <NavLink to="/About" className="nav-button" activeClassName="active">
@@ -65,4 +64,14 @@ const Navigation = ({loading}) => {
   );
 }
 
-export default Navigation;
+function mapStateToProps(state, ownProps) {
+  return {lists: state.storyLists};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(storiesActions, dispatch)
+  };
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navigation));

@@ -20,6 +20,10 @@ export function loadListSuccess(listType, list) {
   return {type: types.LOAD_LIST_SUCCESS, listType, list}
 }
 
+export function listIncrement(listType) {
+  return {type: types.INCREMENT_LIST_AMOUNT, listType};
+}
+
 /**
  * Refresh or newly load entire list of given type
  * 
@@ -31,6 +35,7 @@ export function loadListSuccess(listType, list) {
 export function refreshList(type) {
   return async (dispatch) => {
     try {
+      dispatch(beginAjaxCall());
       let list = await fetch(`/api/listorder/${type}`);
       list = await list.json();
       dispatch(loadListSuccess(type, list));
@@ -41,10 +46,25 @@ export function refreshList(type) {
   }
 }
 
+export function incrementList(type) {
+  return async(dispatch) => {
+    try {
+      dispatch(beginAjaxCall());
+      dispatch(loadStoriesByType(type, 0, false));
+    } catch (error) {
+      dispatch(ajaxCallError(error));
+    }
+  }
+}
+
 export function loadStoriesByType(type, amount, needFresh) {
   return async (dispatch, getState) => {
+    const state = getState();
     dispatch(beginAjaxCall());
-    const postsToFetch = postsNeedingFetch(type, amount, needFresh, getState());
+    if (amount === 0) {
+      amount = state.storyLists[type].amount + 20;
+    }
+    const postsToFetch = postsNeedingFetch(type, amount, needFresh, state);
     try {
       let stories = await fetch('/api/stories', 
                                 {
@@ -55,6 +75,7 @@ export function loadStoriesByType(type, amount, needFresh) {
                                   body: JSON.stringify(postsToFetch)
                                 });
       stories = await stories.json();
+      if (!needFresh) dispatch(listIncrement(type));
       dispatch(loadStoriesSuccess(stories));
     } catch (error) {
       console.log(error);
@@ -68,7 +89,7 @@ export function loadStoriesByTime() {
 }
 
 function postsNeedingFetch(type, amount, needFresh, state) {
-  const storyList = state.storyLists[type].slice(0, amount);
+  const storyList = state.storyLists[type].list.slice(0, amount);
   if (needFresh) return storyList;
 
   const currentStoryIds = state.stories.map(story => story.id);

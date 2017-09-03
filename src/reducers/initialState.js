@@ -3,9 +3,9 @@ export default {
   stories: [],
   // Holds ordered lists from HN by ID only
   storyLists: {
-    top: [],
-    new: [],
-    best: []
+    top: {list: [], amount: 20},
+    new: {list: [], amount: 20},
+    best: {list: [], amount: 20}
   },
   ajaxInfo: {
     ajaxInProgress: false,
