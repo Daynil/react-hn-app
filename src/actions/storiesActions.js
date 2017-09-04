@@ -43,7 +43,7 @@ export function refreshList(type) {
       let list = await fetch(`/api/listorder/${type}`);
       list = await list.json();
       dispatch(loadListSuccess(type, list));
-      dispatch(loadStoriesByType(type, 20, true));
+      dispatch(loadStoriesByType(type, true));
     } catch (error) {
       dispatch(ajaxCallError(error));
     }
@@ -54,19 +54,17 @@ export function incrementList(type) {
   return async(dispatch) => {
     try {
       dispatch(backgroundAjax());
-      dispatch(loadStoriesByType(type, 0, false));
+      dispatch(loadStoriesByType(type, false));
     } catch (error) {
       dispatch(ajaxCallError(error));
     }
   }
 }
 
-export function loadStoriesByType(type, amount, needFresh) {
+export function loadStoriesByType(type, needFresh) {
   return async (dispatch, getState) => {
     const state = getState();
-    if (amount === 0) {
-      amount = state.storyLists[type].amount + 20;
-    }
+    const amount = state.storyLists[type].amount + 20;
     const postsToFetch = postsNeedingFetch(type, amount, needFresh, state);
     try {
       let stories = await fetch('/api/stories', 

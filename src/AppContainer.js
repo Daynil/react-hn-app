@@ -6,6 +6,7 @@ import * as storiesActions from './actions/storiesActions';
 import Navigation from './components/common/Navigation';
 import StoriesPage from './components/stories/StoriesPage';
 import CommentsPage from './components/comments/CommentsPage';
+import AboutPage from './components/about/AboutPage';
 
 class AppContainer extends Component {
   
@@ -17,6 +18,7 @@ class AppContainer extends Component {
           <Route exact path="/" render={() => <Redirect to="/stories/top"/>}/>
           <Route path="/stories/:type" component={StoriesPage}/>
           <Route path="/comment/:id" component={CommentsPage} />
+          <Route path="/about" component={AboutPage} />
         </div>
       </div>
     );

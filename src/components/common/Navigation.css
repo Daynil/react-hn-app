@@ -7,6 +7,10 @@ div.nav-bar {
   height: 36px;
 }
 
+.logo:hover {
+  animation: logo-spin-load infinite 2s linear;
+}
+
 .spacer {
   flex: 1;
 }

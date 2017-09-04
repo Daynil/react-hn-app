@@ -37,3 +37,11 @@ export const selectStories = (state, type) => {
   const storyList = [...stateList].slice(0, stateAmount);
   return selectedStories.filter(story => storyList.indexOf(story.id) !== -1)
 }
+
+export const getStoryPath = (location) => {
+  const currentPath = location.pathname.split('/');
+  const subPath = currentPath[currentPath.length - 1];
+  const storyPaths = ['top', 'best', 'new'];
+  if (storyPaths.indexOf(subPath) !== -1) return subPath;
+  else return '';
+}

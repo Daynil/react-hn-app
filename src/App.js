@@ -7,9 +7,11 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import configureStore from './store/configureStore'
 import {refreshList} from './actions/storiesActions';
+import {getStoryPath} from './utilities/utilities';
 
 const store = configureStore();
-store.dispatch(refreshList('top'));
+const subPath = getStoryPath(window.location);
+if (subPath !== '') store.dispatch(refreshList(subPath));
 
 class App extends Component {
   render() {

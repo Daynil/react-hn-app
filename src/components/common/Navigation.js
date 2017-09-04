@@ -12,6 +12,8 @@ import IconButton from 'material-ui/IconButton';
 import logo from  '../../react-logo.png';
 import './Navigation.css';
 
+import {getStoryPath} from '../../utilities/utilities';
+
 const Navigation = ({loading, lists, actions}) => {
 
   const triggerReload = item => {
@@ -21,12 +23,18 @@ const Navigation = ({loading, lists, actions}) => {
     }
   }
 
+  const reloadData = () => {
+    const subPath = getStoryPath(window.location);
+    if (subPath !== '') actions.refreshList(subPath);
+  }
+
   return (
     <AppBar position="static">
       <Toolbar className="nav-bar">
         <IconButton color="contrast">
           <img src={logo} alt="Logo"
-               className={loading ? "logo spin-load" : "logo"}/>
+               className={loading ? "logo spin-load" : "logo"}
+               onClick={reloadData}/>
         </IconButton>
         <Typography type="title" color="inherit">
           React HN
@@ -49,7 +57,7 @@ const Navigation = ({loading, lists, actions}) => {
             New
           </Button>
         </NavLink>
-        <NavLink to="/About" className="nav-button" activeClassName="active">
+        <NavLink to="/about" className="nav-button" activeClassName="active">
           <Button className="nav-button" color="contrast">
             About
           </Button>
