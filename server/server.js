@@ -17,7 +17,7 @@ const bestStoriesCache = require('./debug/bestStoriesCache.json');
 const app = express();
 
 let production = process.env.NODE_ENV === 'production';
-let port = process.env.PORT || 3001;
+let port = process.env.PORT || 3009;
 let verboseLogging = false;
 
 app.use(cors());
