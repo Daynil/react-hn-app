@@ -11,8 +11,8 @@ const fetch = require('node-fetch');
 require('dotenv').load();
 
 // DEBUG
-const fs = require('fs');
-const bestStoriesCache = require('./debug/bestStoriesCache.json');
+//const fs = require('fs');
+//const bestStoriesCache = require('./debug/bestStoriesCache.json');
 
 const app = express();
 
