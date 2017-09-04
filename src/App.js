@@ -10,6 +10,7 @@ import {refreshList} from './actions/storiesActions';
 import {getStoryPath} from './utilities/utilities';
 
 const store = configureStore();
+if (window.location.pathname === '/') store.dispatch(refreshList('top'))
 const subPath = getStoryPath(window.location);
 if (subPath !== '') store.dispatch(refreshList(subPath));
 
