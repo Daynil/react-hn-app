@@ -3,7 +3,7 @@ import initialState from './initialState';
 
 export default function storiesReducer(state = initialState.storyLists, action) {
   switch (action.type) {
-    case types.LOAD_LIST_SUCCESS:
+    case types.LOADED_LIST:
       let newStateList = {...state};
       newStateList[action.listType].list = action.list;
       return newStateList;

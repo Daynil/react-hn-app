@@ -14,8 +14,9 @@ import './Navigation.css';
 
 const Navigation = ({loading, lists, actions}) => {
 
-  const triggerReload = list => {
-    if (lists[list].length === 0) {
+  const triggerReload = item => {
+    const list = item.target.textContent.toLowerCase();
+    if (lists[list].list.length === 0) {
       actions.refreshList(list);
     }
   }
@@ -34,23 +35,18 @@ const Navigation = ({loading, lists, actions}) => {
         <div className="spacer"></div>
 
         <NavLink to="/stories/top" className="nav-button" activeClassName="active">
-          <Button onClick={() => triggerReload('top')} className="nav-button" color="contrast">
+          <Button onClick={triggerReload} className="nav-button" color="contrast">
             Top
           </Button>
         </NavLink>
         <NavLink to="/stories/best" className="nav-button" activeClassName="active">
-          <Button onClick={() => triggerReload('best')} className="nav-button" color="contrast">
+          <Button onClick={triggerReload} className="nav-button" color="contrast">
             Best
           </Button>
         </NavLink>
         <NavLink to="/stories/new" className="nav-button" activeClassName="active">
-          <Button onClick={() => triggerReload('new')} className="nav-button" color="contrast">
+          <Button onClick={triggerReload} className="nav-button" color="contrast">
             New
-          </Button>
-        </NavLink>
-        <NavLink to="/stories/catchup" className="nav-button" activeClassName="active">
-          <Button className="nav-button" color="contrast">
-            Catchup
           </Button>
         </NavLink>
         <NavLink to="/About" className="nav-button" activeClassName="active">
@@ -65,7 +61,10 @@ const Navigation = ({loading, lists, actions}) => {
 }
 
 function mapStateToProps(state, ownProps) {
-  return {lists: state.storyLists};
+  return {
+    lists: state.storyLists,
+    loading: state.ajaxInfo.ajaxInProgress || state.ajaxInfo.backgroundLoad
+  };
 }
 
 function mapDispatchToProps(dispatch) {

@@ -8,6 +8,10 @@ export function beginAjaxCall() {
   return {type: types.BEGIN_AJAX_CALL};
 }
 
+export function backgroundAjax() {
+  return {type: types.BACKGROUND_AJAX};
+}
+
 export function ajaxCallError(error) {
   return {type: types.AJAX_CALL_ERROR, error};
 }
@@ -17,7 +21,7 @@ export function loadStoriesSuccess(stories) {
 }
 
 export function loadListSuccess(listType, list) {
-  return {type: types.LOAD_LIST_SUCCESS, listType, list}
+  return {type: types.LOADED_LIST, listType, list}
 }
 
 export function listIncrement(listType) {
@@ -49,7 +53,7 @@ export function refreshList(type) {
 export function incrementList(type) {
   return async(dispatch) => {
     try {
-      dispatch(beginAjaxCall());
+      dispatch(backgroundAjax());
       dispatch(loadStoriesByType(type, 0, false));
     } catch (error) {
       dispatch(ajaxCallError(error));
@@ -60,7 +64,6 @@ export function incrementList(type) {
 export function loadStoriesByType(type, amount, needFresh) {
   return async (dispatch, getState) => {
     const state = getState();
-    dispatch(beginAjaxCall());
     if (amount === 0) {
       amount = state.storyLists[type].amount + 20;
     }

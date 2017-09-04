@@ -14,13 +14,19 @@ export default function ajaxStatusReducer(state = initialState.ajaxInfo, action)
   } else if (actionTypeEndsInSuccess(action.type)) {
     return {
       ...state,
-      ajaxInProgress: false
+      ajaxInProgress: false,
+      backgroundLoad: false
     };
   } else if (action.type === types.AJAX_CALL_ERROR) {
     return {
       ajaxInProgress: false,
       error: action.error
     };
+  } else if (action.type === types.BACKGROUND_AJAX) {
+    return {
+      ...state,
+      backgroundLoad: true
+    }
   }
 
   return state;

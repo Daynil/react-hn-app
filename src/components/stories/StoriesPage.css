@@ -1,0 +1,14 @@
+.load-button {
+  margin: 15px;
+}
+
+div.load-icon {
+  width: 20px !important;
+  position: relative;
+  right: 135px;
+  top: 5px;
+}
+
+div.hide {
+  display: none;
+}

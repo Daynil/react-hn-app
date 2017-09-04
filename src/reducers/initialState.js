@@ -9,6 +9,7 @@ export default {
   },
   ajaxInfo: {
     ajaxInProgress: false,
+    backgroundLoad: false,
     error: ''
   }
 };

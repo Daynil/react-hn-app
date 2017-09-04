@@ -11,8 +11,8 @@ class AppContainer extends Component {
   
   render() {
     return (
-      <div style={{backgroundColor: 'hsl(0, 0%, 98%)'}}>
-        <Navigation loading={this.props.loading}/>
+      <div style={{backgroundColor: 'hsl(0, 0%, 98%)', minHeight: '100vh'}}>
+        <Navigation/>
         <div className="page-wrapper">
           <Route exact path="/" render={() => <Redirect to="/stories/top"/>}/>
           <Route path="/stories/:type" component={StoriesPage}/>
