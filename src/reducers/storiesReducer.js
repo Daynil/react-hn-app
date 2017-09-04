@@ -18,6 +18,9 @@ export default function storiesReducer(state = initialState.stories, action) {
   }
 }
 
+/**
+ * Recursively walk comments to find and adjust comment to toggle
+ */
 function commentState(commentId, comments) {
   let newComments = [];
 
