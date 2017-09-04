@@ -75,7 +75,7 @@ app.post('/api/stories', async (req, res) => {
 /** CRA serves front end in development */
 if (production) {
   app.use(compress());
-  app.use( express.static( path.join(__dirname, './dist') ));
+  app.use( express.static( path.join(__dirname, './build') ));
   app.use('/scripts', express.static( path.join(__dirname, './node_modules') ));
 
   app.get('*', (req, res) => {
